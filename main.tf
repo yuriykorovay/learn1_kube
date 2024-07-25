@@ -54,3 +54,21 @@ resource "hcloud_server" "master-node" {
   # We want this node to be created after the private network is created
   depends_on = [hcloud_network_subnet.private_network_subnet]
 }
+
+resource "hcloud_server" "worker-node-1" {
+  name        = "worker-node-1"
+  image       = "ubuntu-22.04"
+  server_type = "cx22"
+  location    = "fsn1"
+  public_net {
+    ipv4_enabled = true
+    ipv6_enabled = true
+  }
+  network {
+    network_id = hcloud_network.private_network.id
+  }
+  user_data = file("${path.module}/cloud-init-worker.yaml")
+
+  # add the master node as a dependency
+  depends_on = [hcloud_network_subnet.private_network_subnet, hcloud_server.master-node]
+}
