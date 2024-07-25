@@ -19,6 +19,11 @@ provider "hcloud" {
   token = var.hcloud_token
 }
 
+# Create a new SSH key
+resource "hcloud_ssh_key" "default" {
+  name       = "Terraform Example"
+  public_key = file("~/.ssh/id_main.pub")
+}
 
 resource "hcloud_network" "private_network" {
   name     = "kubernetes-cluster"
@@ -38,6 +43,8 @@ resource "hcloud_server" "master-node" {
   image       = "ubuntu-22.04"
   server_type = "cx22"
   location    = "fsn1"
+  ssh_keys = [hcloud_ssh_key.default.id] 
+  user_data = file("${path.module}/cloud-init.yaml")
   public_net {
     ipv4_enabled = true
     ipv6_enabled = true
@@ -48,7 +55,6 @@ resource "hcloud_server" "master-node" {
     # Here the worker nodes will use 10.0.1.1 to communicate with the master node
     ip         = "10.0.1.1"
   }
-  user_data = file("${path.module}/cloud-init.yaml")
 
   # If we don't specify this, Terraform will create the resources in parallel
   # We want this node to be created after the private network is created
@@ -60,6 +66,8 @@ resource "hcloud_server" "worker-node-1" {
   image       = "ubuntu-22.04"
   server_type = "cx22"
   location    = "fsn1"
+  ssh_keys = [hcloud_ssh_key.default.id]
+  user_data = file("${path.module}/cloud-init-worker.yaml")
   public_net {
     ipv4_enabled = true
     ipv6_enabled = true
@@ -67,7 +75,6 @@ resource "hcloud_server" "worker-node-1" {
   network {
     network_id = hcloud_network.private_network.id
   }
-  user_data = file("${path.module}/cloud-init-worker.yaml")
 
   # add the master node as a dependency
   depends_on = [hcloud_network_subnet.private_network_subnet, hcloud_server.master-node]

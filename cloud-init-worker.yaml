@@ -4,16 +4,20 @@ packages:
 users:
   - name: cluster
     ssh-authorized-keys:
-      - <your_public_ssh_key>
+      - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDfrljCVuQ+BuVkZN0bWMmFdk1LXlrX85jvLJgJRqnFh yk88@ukr.net
     sudo: ALL=(ALL) NOPASSWD:ALL
     shell: /bin/bash
 
 write_files:
   - path: /root/.ssh/id_rsa
     content: |
-      -----BEGIN OPENSSH PRIVATE KEY-----
-      <worker_private_ssh_key>
-      -----END OPENSSH PRIVATE KEY-----
+-----BEGIN OPENSSH PRIVATE KEY-----
+3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAAAMwAAAAtzc2gtZW
+QyNTUxOQAAACBv4VT8/h7z25K+TR3yLnhvpIPR95wovlGoI6Oe7tXNUAAAAJBftDvNX7Q7
+zQAAAAtzc2gtZWQyNTUxOQAAACBv4VT8/h7z25K+TR3yLnhvpIPR95wovlGoI6Oe7tXNUA
+AAAEDSuBYyNNIEb+9DStJATOVAex21Ruien7WYpSkyzDODKW/hVPz+HvPbkr5NHfIueG+k
+g9H3nCi+Uagjo57u1c1QAAAADHlrODhAdWtyLm5ldAE=
+-----END OPENSSH PRIVATE KEY-----
     permissions: "0600"
 
 runcmd:

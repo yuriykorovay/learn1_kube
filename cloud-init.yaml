@@ -1,12 +1,11 @@
-#Master node
 #cloud-config
 packages:
   - curl
 users:
   - name: cluster
     ssh-authorized-keys:
-      - <your-ssh-public-key>
-      - <worker_public_ssh_key>
+      - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDfrljCVuQ+BuVkZN0bWMmFdk1LXlrX85jvLJgJRqnFh yk88@ukr.net
+      - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIG/hVPz+HvPbkr5NHfIueG+kg9H3nCi+Uagjo57u1c1Q yk88@ukr.net
     sudo: ALL=(ALL) NOPASSWD:ALL
     shell: /bin/bash
 runcmd:
