@@ -1,1 +1,1 @@
-hcloud_token = "<your_api_token>"
+hcloud_token = "d9ZlbKxgQ96sqeHYnqF6RzeDq0f39koqnfZwtBhXksuJKskea4hDY7PNLVSGzosB"
